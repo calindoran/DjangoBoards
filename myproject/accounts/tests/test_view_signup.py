@@ -4,8 +4,8 @@ from django.urls import reverse
 from django.urls import resolve
 from django.test import TestCase
 
-from .views import signup
-from .forms import SignUpForm
+from ..views import signup
+from ..forms import SignUpForm
 
 # Create your tests here.
 
