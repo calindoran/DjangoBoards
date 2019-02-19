@@ -20,13 +20,11 @@ class ReplyTopicTestCase(TestCase):
         Post.objects.create(message='Lorem ipsum dolor sit amet', topic=self.topic, created_by=user)
         self.url = reverse('reply_topic', kwargs={'pk': self.board.pk, 'topic_pk': self.topic.pk})
 
-
 class LoginRequiredReplyTopicTests(ReplyTopicTestCase):
     def test_redirection(self):
         login_url = reverse('login')
         response = self.client.get(self.url)
         self.assertRedirects(response, '{login_url}?next={url}'.format(login_url=login_url, url=self.url))
-
 
 class ReplyTopicTests(ReplyTopicTestCase):
     def setUp(self):
@@ -55,7 +53,6 @@ class ReplyTopicTests(ReplyTopicTestCase):
         self.assertContains(self.response, '<input', 1)
         self.assertContains(self.response, '<textarea', 1)
 
-
 class SuccessfulReplyTopicTests(ReplyTopicTestCase):
     def setUp(self):
         super().setUp()
@@ -66,7 +63,8 @@ class SuccessfulReplyTopicTests(ReplyTopicTestCase):
         '''
         A valid form submission should redirect the user
         '''
-        topic_posts_url = reverse('topic_posts', kwargs={'pk': self.board.pk, 'topic_pk': self.topic.pk})
+        url = reverse('topic_posts', kwargs={'pk': self.board.pk, 'topic_pk': self.topic.pk})
+        topic_posts_url = '{url}?page=1#2'.format(url=url)
         self.assertRedirects(self.response, topic_posts_url)
 
     def test_reply_created(self):
@@ -76,7 +74,8 @@ class SuccessfulReplyTopicTests(ReplyTopicTestCase):
         and another created by the post data in this class
         '''
         self.assertEquals(Post.objects.count(), 2)
-
+    
+    
 
 class InvalidReplyTopicTests(ReplyTopicTestCase):
     def setUp(self):
