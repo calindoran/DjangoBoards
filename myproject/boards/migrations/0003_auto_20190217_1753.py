@@ -5,18 +5,13 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('boards', '0002_topic_last_updated'),
-    ]
+    dependencies = [("boards", "0002_topic_last_updated")]
 
     operations = [
-        migrations.RemoveField(
-            model_name='topic',
-            name='last_update',
-        ),
+        migrations.RemoveField(model_name="topic", name="last_update"),
         migrations.AddField(
-            model_name='topic',
-            name='views',
+            model_name="topic",
+            name="views",
             field=models.PositiveIntegerField(default=0),
         ),
     ]
